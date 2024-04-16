@@ -6,6 +6,12 @@
 #include "GameFramework/Actor.h"
 #include "BaseSnake.generated.h"
 
+class ABaseSnakeElement;
+
+UENUM()
+enum class EMovementDirection { UP, DOWN, LEFT, RIGHT};
+
+
 UCLASS()
 class SNAKE_API ABaseSnake : public AActor
 {
@@ -15,6 +21,20 @@ public:
 	// Sets default values for this actor's properties
 	ABaseSnake();
 
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<ABaseSnakeElement> SnakeElementClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	float ElementSize;
+	UPROPERTY()
+	TArray<ABaseSnakeElement*>SnakeElements;
+
+	UPROPERTY(EditDefaultsOnly)
+	float MovementSpeed;
+
+	UPROPERTY()
+	EMovementDirection LastMoveDirection;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -23,4 +43,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void AddSnakeElement(int Elements = 1);
+
+	void Move(float DeltaTime);
 };
