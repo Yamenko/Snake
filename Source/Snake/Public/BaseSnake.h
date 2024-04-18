@@ -35,6 +35,8 @@ public:
 	UPROPERTY()
 	EMovementDirection LastMoveDirection;
 
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -43,7 +45,14 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
 	void AddSnakeElement(int Elements = 1);
-
+	UFUNCTION(BlueprintCallable)
 	void Move();
+	bool CanChangeDirection;
+
+	UFUNCTION()
+	void SnakeElementOverlap(ABaseSnakeElement* OverlapedElement, AActor* Other);
+
+	
 };

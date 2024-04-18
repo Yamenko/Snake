@@ -50,12 +50,16 @@ void APlayerBaseCameraPawn::CreateSnakeActor()
 
 void APlayerBaseCameraPawn::HandlePlayerVerticalInput(float value)
 {
-	if (IsValid(BaseSnake)){
-		if (value > 0 && BaseSnake->LastMoveDirection != EMovementDirection::DOWN){
-			BaseSnake->LastMoveDirection = EMovementDirection::UP;
-		}
-		else if (value < 0 && BaseSnake->LastMoveDirection != EMovementDirection::UP)	{
-			BaseSnake->LastMoveDirection = EMovementDirection::DOWN;
+	if (IsValid(BaseSnake) ){
+		if (BaseSnake->CanChangeDirection) {
+			if (value > 0 && BaseSnake->LastMoveDirection != EMovementDirection::DOWN) {
+				BaseSnake->LastMoveDirection = EMovementDirection::UP;
+				BaseSnake->CanChangeDirection = false;
+			}
+			else if (value < 0 && BaseSnake->LastMoveDirection != EMovementDirection::UP) {
+				BaseSnake->LastMoveDirection = EMovementDirection::DOWN;
+				BaseSnake->CanChangeDirection = false;
+			}
 		}
 	}
 }
@@ -63,11 +67,15 @@ void APlayerBaseCameraPawn::HandlePlayerVerticalInput(float value)
 void APlayerBaseCameraPawn::HandlePlayerHorizontalInput(float value)
 {
 	if (IsValid(BaseSnake)) {
-		if (value > 0 && BaseSnake->LastMoveDirection != EMovementDirection::LEFT) {
-			BaseSnake->LastMoveDirection = EMovementDirection::RIGHT;
-		}
-		else if (value < 0 && BaseSnake->LastMoveDirection != EMovementDirection::RIGHT) {
-			BaseSnake->LastMoveDirection = EMovementDirection::LEFT;
+		if (BaseSnake->CanChangeDirection) {
+			if (value > 0 && BaseSnake->LastMoveDirection != EMovementDirection::LEFT) {
+				BaseSnake->LastMoveDirection = EMovementDirection::RIGHT;
+				BaseSnake->CanChangeDirection = false;
+			}
+			else if (value < 0 && BaseSnake->LastMoveDirection != EMovementDirection::RIGHT) {
+				BaseSnake->LastMoveDirection = EMovementDirection::LEFT;
+				BaseSnake->CanChangeDirection = false;
+			}
 		}
 	}
 }

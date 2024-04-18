@@ -3,6 +3,7 @@
 
 #include "BaseSnake.h"
 #include "BaseSnakeElement.h"
+#include "Interactable.h"
 
 // Sets default values
 ABaseSnake::ABaseSnake()
@@ -23,6 +24,8 @@ void ABaseSnake::BeginPlay()
 	//GetWorld()->SpawnActor<ABaseSnakeElement>(SnakeElementClass, GetActorTransform());
 	SetActorTickInterval(MovementSpeed);
 	AddSnakeElement(4);
+
+	CanChangeDirection = true;
 	
 }
 
@@ -41,11 +44,10 @@ void ABaseSnake::AddSnakeElement(int Elements)
 		ABaseSnakeElement* NewSnakeElements = GetWorld()->SpawnActor<ABaseSnakeElement>(SnakeElementClass, TmpTransform);
 		//NewSnakeElements->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 		int32 ElementIndex =  SnakeElements.Add(NewSnakeElements);
-
+		NewSnakeElements->SnakeOwner = this;
 		if (ElementIndex == 0 )
 		{
 			NewSnakeElements->SetFirstElementType();
-
 		}
 	}
 }
@@ -71,7 +73,7 @@ void ABaseSnake::Move()
 	default: ;
 	}
 
-	//AddActorWorldOffset(MovementVector);
+	SnakeElements[0]->ToggleCollision();
 
 	for (int i = SnakeElements.Num() - 1; i > 0; --i)
 	{
@@ -82,6 +84,25 @@ void ABaseSnake::Move()
 	}
 
 	SnakeElements[0]->AddActorWorldOffset(MovementVector); // Голова!
+	SnakeElements[0]->ToggleCollision();
+	CanChangeDirection = true;
+}
 
+void ABaseSnake::SnakeElementOverlap(ABaseSnakeElement* OverlapedElement, AActor* Other)
+{
+	if (OverlapedElement)
+	{
+		int32 IndexElement;
+		SnakeElements.Find(OverlapedElement, IndexElement);
+
+		bool isHead = (IndexElement == 0);
+
+		IInteractable* InteractableInterface = Cast<IInteractable>(Other);
+
+		if (InteractableInterface)
+		{
+			InteractableInterface->Interact(this, isHead);
+		}
+	}
 }
 
