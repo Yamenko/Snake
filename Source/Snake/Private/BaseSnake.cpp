@@ -11,8 +11,8 @@ ABaseSnake::ABaseSnake()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	ElementSize = 100.0f;
-	MovementSpeed = 10.0f;
+	ElementSize = 35.0f;
+	MovementSpeed = 5.0f;
 	LastMoveDirection = EMovementDirection::DOWN;
 
 }
@@ -39,7 +39,7 @@ void ABaseSnake::Tick(float DeltaTime)
 void ABaseSnake::AddSnakeElement(int Elements)
 {
 	for (int i = 0; i < Elements; ++i) {
-		FVector NewLocation(SnakeElements.Num() * ElementSize, 0, 0);
+		FVector NewLocation(SnakeElements.Num() * ElementSize, 0, 0); // SnakeElements.Num()
 		FTransform TmpTransform(NewLocation);
 		ABaseSnakeElement* NewSnakeElements = GetWorld()->SpawnActor<ABaseSnakeElement>(SnakeElementClass, TmpTransform);
 		//NewSnakeElements->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
