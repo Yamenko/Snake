@@ -40,10 +40,11 @@ void ABaseSnake::AddSnakeElement(int Elements)
 {
 	for (int i = 0; i < Elements; ++i) {
 		FVector NewLocation(SnakeElements.Num() * ElementSize, 0, 0); // SnakeElements.Num()
+
 		FTransform TmpTransform(NewLocation);
 		ABaseSnakeElement* NewSnakeElements = GetWorld()->SpawnActor<ABaseSnakeElement>(SnakeElementClass, TmpTransform);
-		//NewSnakeElements->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 		int32 ElementIndex =  SnakeElements.Add(NewSnakeElements);
+
 		NewSnakeElements->SnakeOwner = this;
 		if (ElementIndex == 0 )
 		{
@@ -81,6 +82,8 @@ void ABaseSnake::Move()
 		auto PrevElement = SnakeElements[i - 1];
 		FVector PrevLocation = PrevElement->GetActorLocation();
 		CurentElement->SetActorLocation(PrevLocation);
+
+		CurentElement->GetRootComponent()->SetVisibility(true, true);
 	}
 
 	SnakeElements[0]->AddActorWorldOffset(MovementVector); // Голова!

@@ -14,6 +14,7 @@ ABaseSnakeElement::ABaseSnakeElement()
 	MeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh Component"));
 	MeshComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	MeshComponent->SetCollisionResponseToAllChannels(ECR_Overlap);
+	MeshComponent->SetVisibility(false, true);
 }
 
 // Called when the game starts or when spawned
@@ -32,6 +33,7 @@ void ABaseSnakeElement::Tick(float DeltaTime)
 void ABaseSnakeElement::SetFirstElementType_Implementation()
 {
 	MeshComponent->OnComponentBeginOverlap.AddDynamic(this, &ABaseSnakeElement::HandleBeginOverlap);
+	MeshComponent->SetVisibility(true, true);
 }
 
 void ABaseSnakeElement::Interact(AActor* Interactor, bool bIsHead)
