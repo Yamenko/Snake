@@ -51,7 +51,7 @@ public:
 	void Move();
 	bool CanChangeDirection;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void SnakeElementOverlap(ABaseSnakeElement* OverlapedElement, AActor* Other);
 
 	
