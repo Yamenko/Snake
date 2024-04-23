@@ -11,8 +11,8 @@ ABaseSnake::ABaseSnake()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	ElementSize = 35.0f;
-	MovementSpeed = 5.0f;
+	ElementSize = 50.0f;
+	MovementSpeed = 4.0f;
 	LastMoveDirection = EMovementDirection::DOWN;
 
 }
@@ -26,7 +26,6 @@ void ABaseSnake::BeginPlay()
 	AddSnakeElement(4);
 
 	CanChangeDirection = true;
-	
 }
 
 // Called every frame
